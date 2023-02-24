@@ -1,0 +1,99 @@
+/* Write your CSS here */
+.detail-product-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 28px;
+}
+
+.img-container {
+  height: 590px;
+  width: 500px;
+}
+
+.image-size {
+  height: 590px;
+  width: 100%;
+  border-radius: 18px;
+}
+
+.star-rating-containers {
+  width: 165px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.description-container {
+  width: 35%;
+  border-width: 1px;
+  border-style: solid;
+  padding: 24px;
+  margin-left: 30px;
+}
+
+.title-heading {
+  font-family: 'Roboto';
+  font-size: 50px;
+  font-weight: bold;
+  color: #12022f;
+}
+
+.price-para {
+  font-family: 'Roboto';
+  font-size: 16px;
+  font-weight: bold;
+  color: #12022f;
+}
+
+.rating-container {
+  width: 70px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.star-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.star-image-size {
+  height: 20px;
+  width: 20px;
+}
+
+.review-para {
+  font-family: 'Roboto';
+  font-size: 14px;
+  font-weight: 500;
+  color: #12022f;
+}
+
+.description-para {
+  font-family: 'Roboto';
+  font-size: 18px;
+  font-weight: 500;
+  color: #616e7c;
+}
+
+.span-ele {
+  font-family: 'Roboto';
+  font-size: 15px;
+  font-weight: 600;
+  color: #12022f;
+}
+
+.available-para {
+  font-family: 'Roboto';
+  font-size: 15px;
+  font-weight: 500;
+  color: #616e7c;
+}
+.span-ele {
+  font-family: 'Roboto';
+  font-size: 15px;
+  font-weight: 600;
+  color: #12022f;
+}
