@@ -1,1 +1,63 @@
 /* Write your CSS here */
+.similar-star-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #3b82f6;
+  height: 30px;
+  width: 70px;
+  border-radius: 3px;
+}
+
+.similar-star-image-size {
+  height: 20px;
+  width: 20px;
+}
+.price-para {
+  font-family: 'Roboto';
+  font-size: 16px;
+  font-weight: bold;
+  color: #12022f;
+}
+.list {
+  list-style-type: none;
+}
+
+.img-container {
+  height: 400px;
+  width: 400px;
+  border-width: 1px;
+  border-style: solid;
+}
+
+.img-size {
+  height: 220px;
+  width: 220px;
+  border-radius: 10px;
+}
+
+.title-para {
+  font-family: 'Roboto';
+  font-size: 16px;
+  font-weight: bold;
+  color: #12022f;
+}
+.brand-para {
+  font-family: 'Roboto';
+  font-size: 16px;
+  font-weight: bold;
+  color: #616e7c;
+}
+
+.rating-price-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.rating-para {
+  font-family: 'Roboto';
+  font-size: 16px;
+  font-weight: 500;
+  color: #ffffff;
+}

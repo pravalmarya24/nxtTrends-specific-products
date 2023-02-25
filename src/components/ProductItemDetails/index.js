@@ -1,10 +1,11 @@
 import {Component} from 'react'
 import Cookies from 'js-cookie'
 import './index.css'
+import SimilarProductItem from '../SimilarProductItem'
 
 // Write your code here
 class ProductItemDetails extends Component {
-  state = {detailProducts: []}
+  state = {detailProducts: [], similarProductsList: [], count: 1}
 
   componentDidMount() {
     this.getDetailOfProducts()
@@ -34,13 +35,32 @@ class ProductItemDetails extends Component {
       title: data.title,
       totalReviews: data.total_reviews,
     }
-    this.setState({detailProducts: updatedData})
-    console.log(updatedData)
+
+    const similarProducts = data.similar_products.map(each => ({
+      id: each.id,
+      availability: each.availability,
+      brand: each.brand,
+      description: each.description,
+      imageUrl: each.image_url,
+      price: each.price,
+      rating: each.rating,
+      title: each.title,
+      style: each.style,
+      totalReviews: each.total_reviews,
+    }))
+    this.setState({
+      detailProducts: updatedData,
+      similarProductsList: similarProducts,
+    })
     console.log(data)
   }
 
+  onDecrement = () => this.setState(prevstate => ({count: prevstate.count - 1}))
+
+  onIncrement = () => this.setState(prevstate => ({count: prevstate.count + 1}))
+
   renderProductDetailSection = () => {
-    const {detailProducts} = this.state
+    const {detailProducts, count} = this.state
     const {
       availability,
       brand,
@@ -51,6 +71,7 @@ class ProductItemDetails extends Component {
       title,
       totalReviews,
     } = detailProducts
+
     return (
       <div className="detail-product-container">
         <div className="img-container">
@@ -78,13 +99,46 @@ class ProductItemDetails extends Component {
           <p className="available-para">{`Available: ${availability}`}</p>
           <p className="available-para">{`Brand: ${brand}`}</p>
           <hr />
+          <div className="plus-minus-container">
+            <div className="minus-container">
+              <p className="minus-para" onClick={this.onDecrement}>
+                -
+              </p>
+            </div>
+
+            <p className="count-para">{count}</p>
+            <div className="plus-container">
+              <p className="plus-para" onClick={this.onIncrement}>
+                +
+              </p>
+            </div>
+          </div>
+          <button className="add-to-cart-btn" type="button">
+            Add To Cart
+          </button>
         </div>
       </div>
     )
   }
 
+  renderUnorderedList = () => {
+    const {similarProductsList} = this.state
+    return (
+      <ul className="unordered-list">
+        {similarProductsList.map(eachItem => (
+          <SimilarProductItem eachList={eachItem} key={eachItem.id} />
+        ))}
+      </ul>
+    )
+  }
+
   render() {
-    return <>{this.renderProductDetailSection()}</>
+    return (
+      <div className="products-container">
+        {this.renderProductDetailSection()}
+        {this.renderUnorderedList()}
+      </div>
+    )
   }
 }
 export default ProductItemDetails
