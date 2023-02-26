@@ -1,15 +1,38 @@
 import {Component} from 'react'
 import Cookies from 'js-cookie'
 import './index.css'
+import {BsPlusSquare, BsDashSquare} from 'react-icons/bs'
 import SimilarProductItem from '../SimilarProductItem'
+import Header from '../Header'
 
 // Write your code here
+
+const StatusConstants = {
+  initial: 'INITIAL',
+  success: 'SUCCESS',
+  failure: 'FAILURE',
+  inProgress: 'IN_PROGRESS',
+}
 class ProductItemDetails extends Component {
   state = {detailProducts: [], similarProductsList: [], count: 1}
 
   componentDidMount() {
     this.getDetailOfProducts()
   }
+
+  renderFailureView = () => (
+    <div className="failure-view-container">
+      <img
+        src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-error-view-img.png"
+        alt="failure view"
+        className="failure-img-size"
+      />
+      <h1 className="product-not-found-para">Product Not Found</h1>
+      <button type="button" className="continue-shopping-btn">
+        Continue Shopping
+      </button>
+    </div>
+  )
 
   getDetailOfProducts = async () => {
     const {match} = this.props
@@ -24,38 +47,48 @@ class ProductItemDetails extends Component {
     }
     const response = await fetch(apiUrl, options)
     const data = await response.json()
-    const updatedData = {
-      availability: data.availability,
-      brand: data.brand,
-      description: data.description,
-      id: data.id,
-      imageUrl: data.image_url,
-      price: data.price,
-      rating: data.rating,
-      title: data.title,
-      totalReviews: data.total_reviews,
-    }
 
-    const similarProducts = data.similar_products.map(each => ({
-      id: each.id,
-      availability: each.availability,
-      brand: each.brand,
-      description: each.description,
-      imageUrl: each.image_url,
-      price: each.price,
-      rating: each.rating,
-      title: each.title,
-      style: each.style,
-      totalReviews: each.total_reviews,
-    }))
-    this.setState({
-      detailProducts: updatedData,
-      similarProductsList: similarProducts,
-    })
-    console.log(data)
+    if (response.ok) {
+      const updatedData = {
+        availability: data.availability,
+        brand: data.brand,
+        description: data.description,
+        id: data.id,
+        imageUrl: data.image_url,
+        price: data.price,
+        rating: data.rating,
+        title: data.title,
+        totalReviews: data.total_reviews,
+      }
+
+      const similarProducts = data.similar_products.map(each => ({
+        id: each.id,
+        availability: each.availability,
+        brand: each.brand,
+        description: each.description,
+        imageUrl: each.image_url,
+        price: each.price,
+        rating: each.rating,
+        title: each.title,
+        style: each.style,
+        totalReviews: each.total_reviews,
+      }))
+      this.setState({
+        detailProducts: updatedData,
+        similarProductsList: similarProducts,
+      })
+    } else {
+      this.setState({})
+    }
   }
 
-  onDecrement = () => this.setState(prevstate => ({count: prevstate.count - 1}))
+  onDecrement = () => {
+    const {count} = this.state
+    if (count === 1) {
+      return this.setState({count: 1})
+    }
+    return this.setState(prevState => ({count: prevState.count - 1}))
+  }
 
   onIncrement = () => this.setState(prevstate => ({count: prevstate.count + 1}))
 
@@ -75,7 +108,7 @@ class ProductItemDetails extends Component {
     return (
       <div className="detail-product-container">
         <div className="img-container">
-          <img src={imageUrl} alt="start" className="image-size" />
+          <img src={imageUrl} alt="product" className="image-size" />
         </div>
         <div className="description-container">
           <h1 className="title-heading">{title}</h1>
@@ -100,18 +133,18 @@ class ProductItemDetails extends Component {
           <p className="available-para">{`Brand: ${brand}`}</p>
           <hr />
           <div className="plus-minus-container">
-            <div className="minus-container">
-              <p className="minus-para" onClick={this.onDecrement}>
-                -
-              </p>
-            </div>
+            <button
+              type="button"
+              data-testid="minus"
+              onClick={this.onDecrement}
+            >
+              <BsDashSquare className="minus-para" />
+            </button>
 
             <p className="count-para">{count}</p>
-            <div className="plus-container">
-              <p className="plus-para" onClick={this.onIncrement}>
-                +
-              </p>
-            </div>
+            <button onClick={this.onIncrement} type="button" data-testid="plus">
+              <BsPlusSquare className="plus-para" />
+            </button>
           </div>
           <button className="add-to-cart-btn" type="button">
             Add To Cart
@@ -135,6 +168,7 @@ class ProductItemDetails extends Component {
   render() {
     return (
       <div className="products-container">
+        <Header />
         {this.renderProductDetailSection()}
         {this.renderUnorderedList()}
       </div>
